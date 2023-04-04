@@ -13,3 +13,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  background-color: transparent;
+  outline: transparent;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+svg {
+  width: 30px;
+  height: 30px;
+}
