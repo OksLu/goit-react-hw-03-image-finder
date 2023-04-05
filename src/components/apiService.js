@@ -8,7 +8,6 @@ export async function fetchPics(searchQuery, page = 1) {
   const URL = `${ENDPOINT}?key=${API_KEY}&q=${searchQuery}&${CONFIG}&page=${page}`;
 
   const response = await axios.get(URL);
-  console.log(response);
   return response.data.hits.map(hit => {
     return {
       id: hit.id,
