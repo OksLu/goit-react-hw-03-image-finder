@@ -17,8 +17,10 @@ export const ImageGalleryItem = ({ item, onImageClick }) => {
 
 ImageGalleryItem.prototype = {
   item: propTypes.shape({
+    id: propTypes.number.isRequired,
     smallImg: propTypes.string.isRequired,
     largeImage: propTypes.string.isRequired,
     tags: propTypes.string.isRequired,
   }).isRequired,
+  onImageClick: propTypes.func.isRequired,
 };

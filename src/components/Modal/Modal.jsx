@@ -1,8 +1,18 @@
+import propTypes from 'prop-types';
 import { Component } from 'react';
 import css from './Modal.module.css';
 import { GrClose } from 'react-icons/gr';
 
 export class Modal extends Component {
+  static propTypes = {
+    hideModal: propTypes.func.isRequired,
+    currentImg: propTypes.shape({
+      id: propTypes.number.isRequired,
+      smallImg: propTypes.string.isRequired,
+      largeImage: propTypes.string.isRequired,
+      tags: propTypes.string.isRequired,
+    }).isRequired,
+  };
   state = {
     image: null,
   };
