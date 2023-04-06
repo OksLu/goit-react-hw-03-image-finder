@@ -11,18 +11,17 @@ export class Searchbar extends Component {
     value: '',
   };
   handleChange = e => {
-    const inputValue = e.target.value.trim();
+    const inputValue = e.target.value;
     this.setState({ value: inputValue });
   };
 
   handleSubmit = e => {
     e.preventDefault();
 
-    if (this.state.value === '') {
-      alert('Ведіть дані для пошуку');
-      return;
+    if (this.state.value.trim() === '') {
+      return alert('Ведіть дані для пошуку');
     }
-    this.props.onSubmit(this.state.value);
+    this.props.onSubmit(this.state.value.trim());
   };
   render() {
     return (

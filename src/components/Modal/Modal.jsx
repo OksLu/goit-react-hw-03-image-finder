@@ -33,7 +33,7 @@ export class Modal extends Component {
   render() {
     const { hideModal, currentImg } = this.props;
     return (
-      <div className={css.overlay}>
+      <div className={css.overlay} onClick={hideModal}>
         <button className={css.close}>
           <GrClose onClick={hideModal} />
         </button>

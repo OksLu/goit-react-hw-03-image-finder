@@ -8,12 +8,13 @@ export async function fetchPics(searchQuery, page = 1) {
   const URL = `${ENDPOINT}?key=${API_KEY}&q=${searchQuery}&${CONFIG}&page=${page}`;
 
   const response = await axios.get(URL);
-  return response.data.hits.map(hit => {
-    return {
-      id: hit.id,
-      smallImg: hit.webformatURL,
-      largeImg: hit.largeImageURL,
-      tags: hit.tags,
-    };
-  });
+  return response.data;
+  //   .hits.map(hit => {
+  //   return {
+  //     id: hit.id,
+  //     smallImg: hit.webformatURL,
+  //     largeImg: hit.largeImageURL,
+  //     tags: hit.tags,
+  //   };
+  // });
 }

@@ -10,6 +10,7 @@ export class App extends Component {
   state = {
     query: '',
     gallery: [],
+    total: null,
     loading: false,
     page: 0,
     errorMsg: '',
@@ -18,8 +19,7 @@ export class App extends Component {
   };
 
   onSubmit = searchQuery => {
-    this.setState({ query: searchQuery, page: 0 });
-    this.loadMore();
+    this.setState({ query: searchQuery.trim(), page: 0 });
   };
 
   loadMore = () => {
@@ -29,22 +29,33 @@ export class App extends Component {
   };
 
   loadImages = async () => {
-    try {
-      const { query, page } = this.state;
+    if (this.state.page !== 0) {
+      try {
+        const { query, page } = this.state;
 
-      this.setState({ loading: true });
-      const response = await fetchPics(query, page);
+        this.setState({ loading: true });
+        const response = await fetchPics(query, page);
+        const images = response.hits.map(hit => {
+          return {
+            id: hit.id,
+            smallImg: hit.webformatURL,
+            largeImg: hit.largeImageURL,
+            tags: hit.tags,
+          };
+        });
 
-      this.setState(prevState => ({
-        gallery: [...prevState.gallery, ...response],
-        errorMsg: '',
-      }));
-    } catch (error) {
-      this.setState({
-        errorMsg: 'Error while loading data. Try again later.',
-      });
-    } finally {
-      this.setState({ loading: false });
+        this.setState(prevState => ({
+          gallery: [...prevState.gallery, ...images],
+          total: response.totalHits,
+          errorMsg: '',
+        }));
+      } catch (error) {
+        this.setState({
+          errorMsg: 'Error while loading data. Try again later.',
+        });
+      } finally {
+        this.setState({ loading: false });
+      }
     }
   };
 
@@ -54,6 +65,7 @@ export class App extends Component {
     }
     if (prevState.query !== this.state.query) {
       this.setState({ gallery: [] });
+      this.loadMore();
     }
   }
   onImageClick = e => {
@@ -72,7 +84,7 @@ export class App extends Component {
     this.setState({ openModal: false });
   };
   render() {
-    const { loading, gallery, openModal, currentImg } = this.state;
+    const { loading, gallery, openModal, currentImg, total } = this.state;
     return (
       <div>
         {loading && <Loader />}
@@ -82,7 +94,9 @@ export class App extends Component {
         {openModal && (
           <Modal hideModal={this.hideModal} currentImg={currentImg} />
         )}
-        {gallery.length !== 0 && <LoadMore onClick={this.loadMore} />}
+        {gallery.length !== 0 && gallery.length < total && (
+          <LoadMore onClick={this.loadMore} />
+        )}
       </div>
     );
   }
